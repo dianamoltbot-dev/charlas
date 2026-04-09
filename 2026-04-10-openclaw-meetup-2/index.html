@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenClaw Meetup #2 — De Febrero a Abril: El Mundo Cambió</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #0a0a0a;
+            --accent: #ff6b2b;
+            --ink: #fafafa;
+            --grid-line: rgba(255,107,43,0.06);
+        }
+        body { background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; overflow:hidden; }
+        .fira { font-family:'Fira Code',monospace; }
+        .grid-bg {
+            background-image:
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size:40px 40px;
+        }
+        .slide { display:none; height:100vh; padding:3rem 4rem; animation:fadeIn 0.5s ease-out; }
+        .slide.active { display:flex; flex-direction:column; justify-content:center; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+        .accent-text { color:var(--accent); }
+        .accent-bg { background:var(--accent); }
+        .card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; }
+        .card-accent { background:rgba(255,107,43,0.08); border:1px solid rgba(255,107,43,0.2); border-radius:12px; }
+        .nav-btn { position:fixed; bottom:2rem; padding:0.8rem 1.2rem; background:var(--accent); color:#000; cursor:pointer; z-index:100; border-radius:8px; font-weight:600; border:none; font-size:0.9rem; }
+        .nav-btn:hover { opacity:0.85; }
+        .progress-bar { position:fixed; top:0; left:0; height:3px; background:var(--accent); transition:width 0.3s; z-index:1000; }
+        .tag { display:inline-block; padding:0.25rem 0.75rem; border:1px solid var(--accent); color:var(--accent); font-family:'Fira Code',monospace; font-size:0.7rem; border-radius:4px; text-transform:uppercase; letter-spacing:0.05em; }
+        .timeline-dot { width:16px; height:16px; border-radius:50%; background:var(--accent); flex-shrink:0; }
+        .timeline-dot-dim { width:16px; height:16px; border-radius:50%; background:rgba(255,107,43,0.3); flex-shrink:0; }
+        .timeline-line { width:2px; background:rgba(255,107,43,0.2); flex-shrink:0; }
+        @media print {
+            body { overflow:visible; }
+            .slide { display:flex!important; flex-direction:column; justify-content:center; height:100vh; page-break-after:always; animation:none; }
+            .nav-btn,.progress-bar { display:none!important; }
+            @page { size:landscape; margin:0; }
+        }
+        @media(max-width:768px) {
+            .slide { padding:1.5rem; }
+            h1 { font-size:2rem!important; }
+            h2 { font-size:1.5rem!important; }
+        }
+    </style>
+</head>
+<body class="grid-bg">
+
+<div id="progress" class="progress-bar" style="width:0%"></div>
+
+<!-- ==================== SLIDE 1: PORTADA ==================== -->
+<div class="slide active" id="slide-1">
+    <div class="max-w-5xl mx-auto text-center">
+        <div class="tag mb-6">MEETUP #2 // 10 ABRIL 2026</div>
+        <h1 class="text-6xl font-extrabold mb-6 tracking-tight leading-tight">
+            De Febrero a Abril:<br><span class="accent-text">El Mundo Cambió</span>
+        </h1>
+        <p class="text-xl font-light mb-12 opacity-70 max-w-2xl mx-auto">
+            En solo mes y medio que parecieron 2 años de noticias, pasamos de la explosión viral de OpenClaw al modelo que Anthropic no se anima a soltar.
+        </p>
+        <div class="inline-block card-accent px-8 py-4">
+            <p class="fira text-sm opacity-80">📍 La Crypta, Buenos Aires · 🕐 19:00 hs</p>
+        </div>
+        <div class="mt-12 text-sm fira opacity-40">
+            ING. CAMILA VELASCO // SPARK101 TECH
+        </div>
+    </div>
+</div>
+
+<!-- ==================== SLIDE 2: CONTEXTO ==================== -->
+<div class="slide" id="slide-2">
+    <div class="max-w-5xl mx-auto">
+        <div class="tag mb-4">CONTEXTO</div>
+        <h2 class="text-4xl font-bold mb-8">¿Cómo llegamos <span class="accent-text">acá</span>?</h2>
+        <div class="grid grid-cols-2 gap-8">
+            <div class="card p-8">
+                <p class="fira text-xs opacity-50 mb-3">20 FEB 2026</p>
+                <h3 class="text-2xl font-bold mb-3">Primer Meetup</h3>
+                <p class="opacity-70">Nacimiento de la comunidad OpenClaw Argentina en La Crypta. Foco práctico: cómo usar agentes en la vida real, sin tanta teoría.</p>
+            </div>
+            <div class="card-accent p-8">
+                <p class="fira text-xs opacity-50 mb-3">10 ABR 2026</p>
+                <h3 class="text-2xl font-bold mb-3">Segundo Meetup</h3>
+                <p class="opacity-70">El hype maduró. Hoy hablamos de costos, límites, geopolítica energética, ciberseguridad y el modelo que no te dejan usar.</p>
+            </div>
+        </div>
+        <div class="mt-8 p-6 card text-center">
+            <p class="text-lg italic opacity-80">"Hoy venimos a conectar, compartir experiencias reales y ver cómo seguimos construyendo en Argentina."</p>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== SLIDE 3: LÍNEA DE TIEMPO ==================== -->
+<div class="slide" id="slide-3">
+    <div class="max-w-5xl mx-auto">
+        <div class="tag mb-4">TIMELINE</div>
+        <h2 class="text-4xl font-bold mb-10">Mes y medio que parecieron <span class="accent-text">2 años</span></h2>
+        <div class="space-y-4">
+            <div class="flex items-start gap-4">
+                <div class="flex flex-col items-center"><div class="timeline-dot"></div><div class="timeline-line h-12"></div></div>
+                <div><span class="fira text-xs accent-text">20 FEB</span><p class="font-semibold">Primer OpenClaw Meetup — La Crypta, Buenos Aires</p></div>
+            </div>
+            <div class="flex items-start gap-4">
+                <div class="flex flex-col items-center"><div class="timeline-dot"></div><div class="timeline-line h-12"></div></div>
+                <div><span class="fira text-xs accent-text">FEB–MAR</span><p class="font-semibold">Migración masiva OpenAI → Claude + explosión agentic AI</p></div>
+            </div>
+            <div class="flex items-start gap-4">
+                <div class="flex flex-col items-center"><div class="timeline-dot"></div><div class="timeline-line h-12"></div></div>
+                <div><span class="fira text-xs accent-text">PRINCIPIOS MAR</span><p class="font-semibold">Trump firma el "Ratepayer Protection Pledge" — energía para data centers</p></div>
+            </div>
+            <div class="flex items-start gap-4">
+                <div class="flex flex-col items-center"><div class="timeline-dot"></div><div class="timeline-line h-12"></div></div>
+                <div><span class="fira text-xs accent-text">MAR</span><p class="font-semibold">Outages masivos de Claude — la uptime se desploma</p></div>
+            </div>
+            <div class="flex items-start gap-4">
+                <div class="flex flex-col items-center"><div class="timeline-dot"></div><div class="timeline-line h-12"></div></div>
+                <div><span class="fira text-xs accent-text">4 ABR</span><p class="font-semibold">Anthropic corta suscripciones Pro/Max en third-party tools</p></div>
+            </div>
+            <div class="flex items-start gap-4">
+                <div class="flex flex-col items-center"><div class="timeline-dot"></div></div>
+                <div><span class="fira text-xs accent-text">7 ABR</span><p class="font-semibold">Claude Mythos Preview — el modelo que no te dejan usar</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== SLIDE 4: MIGRACIÓN ==================== -->
+<div class="slide" id="slide-4">
+    <div class="max-w-5xl mx-auto">
+        <div class="tag mb-4">HITO #1 // FEB–MAR 2026</div>
+        <h2 class="text-4xl font-bold mb-8">La Gran <span class="accent-text">Migración</span></h2>
+        <div class="grid grid-cols-2 gap-8">
+            <div class="card p-8">
+                <h3 class="text-5xl font-bold accent-text mb-4">OpenAI →</h3>
+                <ul class="space-y-3 opacity-80">
+                    <li>• Controversias internas + deals militares</li>
+                    <li>• Usuarios percibían degradación del modelo</li>
+                    <li>• Founders y devs buscan alternativas</li>
+                </ul>
+            </div>
+            <div class="card-accent p-8">
+                <h3 class="text-5xl font-bold mb-4">→ Claude</h3>
+                <ul class="space-y-3 opacity-80">
+                    <li>• Percibido como más "humano" y empático</li>
+                    <li>• Mejor en tareas complejas y coding</li>
+                    <li>• OpenClaw hizo la agentic layer perfecta</li>
+                </ul>
+            </div>
+        </div>
+        <div class="mt-8 p-6 card text-center">
+            <p class="text-lg fira opacity-70">Guías enteras de "cómo migrar tus chats sin perder data" se hicieron virales.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== SLIDE 5: ENERGÍA ==================== -->
+<div class="slide" id="slide-5">
+    <div class="max-w-5xl mx-auto">
+        <div class="tag mb-4">HITO #2 // PRINCIPIOS MARZO</div>
+        <h2 class="text-4xl font-bold mb-8">Trump + Big Tech = <span class="accent-text">Hambre de Energía</span></h2>
+        <div class="card p-8 mb-8">
+            <h3 class="text-2xl font-bold mb-4">Ratepayer Protection Pledge</h3>
+            <p class="text-lg opacity-80 mb-6">Amazon, Google, Meta, Microsoft, OpenAI, Oracle y xAI firmaron: pagan ellos mismos la generación y transmisión de energía extra para sus data centers.</p>
+            <div class="grid grid-cols-3 gap-6">
+                <div class="card-accent p-4 text-center">
+                    <p class="text-3xl font-bold accent-text">⚡</p>
+                    <p class="text-sm mt-2">No sube la tarifa al ciudadano</p>
+                </div>
+                <div class="card-accent p-4 text-center">
+                    <p class="text-3xl font-bold accent-text">🏗️</p>
+                    <p class="text-sm mt-2">Acelera plantas de gas y nuclear</p>
+                </div>
+                <div class="card-accent p-4 text-center">
+                    <p class="text-3xl font-bold accent-text">🤔</p>
+                    <p class="text-sm mt-2">¿Beneficia a la gente o solo a Big Tech?</p>
+                </div>
+            </div>
+        </div>
+        <p class="text-center opacity-60 fira text-sm">La IA consume energía como países enteros. La pregunta no es SI van a construir más plantas — es QUIÉN paga.</p>
+    </div>
+</div>
+
+<!-- ==================== SLIDE 6: OUTAGES ==================== -->
+<div class="slide" id="slide-6">
+    <div class="max-w-5xl mx-auto">
+        <div class="tag mb-4">HITO #3 // MARZO–ABRIL</div>
+        <h2 class="text-4xl font-bold mb-8">Los <span class="accent-text">Outages</span> que nos volvieron locos</h2>
+        <div class="grid grid-cols-4 gap-4 mb-8">
+            <div class="card p-6 text-center">
+                <p class="text-3xl font-bold accent-text">2/3</p>
+                <p class="text-sm opacity-60 mt-2">Outage global</p>
+            </div>
+            <div class="card p-6 text-center">
+                <p class="text-3xl font-bold accent-text">~5x</p>
+                <p class="text-sm opacity-60 mt-2">Caídas en marzo</p>
+            </div>
+            <div class="card p-6 text-center">
+                <p class="text-3xl font-bold accent-text">27/3</p>
+                <p class="text-sm opacity-60 mt-2">Outage mayor</p>
+            </div>
+            <div class="card p-6 text-center">
+                <p class="text-3xl font-bold accent-text">6-7/4</p>
+                <p class="text-sm opacity-60 mt-2">Elevated errors</p>
+            </div>
+        </div>
+        <div class="card p-8 text-center">
+            <p class="text-2xl font-bold mb-4">La uptime de Claude se desplomó.</p>
+            <p class="text-lg opacity-70">Login roto, voice caída, chats perdidos. Los power users en Argentina y el mundo lo sufrimos en carne propia.</p>
+        </div>
+        <div class="mt-6 p-4 card-accent text-center">
+            <p class="fira text-sm">¿Quién más se quedó sin Claude a mitad de un agent? 🙋</p>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== SLIDE 7: CORTE POWER USERS ==================== -->
+<div class="slide" id="slide-7">
+    <div class="max-w-5xl mx-auto">
+        <div class="tag mb-4">HITO #4 // ABRIL 2026</div>
+        <h2 class="text-4xl font-bold mb-8">Anthropic a los power users: <span class="accent-text">"Basta"</span></h2>
+        <div class="grid grid-cols-2 gap-8 mb-8">
+            <div class="card p-8">
+                <h3 class="text-xl font-bold mb-4 accent-text">Lo que hicieron</h3>
+                <ul class="space-y-3 opacity-80">
+                    <li>• Sesiones de 5 horas que se gastan más rápido en peak hours</li>
+                    <li>• Bloquearon suscripciones Pro/Max en tools como OpenClaw</li>
+                    <li>• Mensaje implícito: Claude es para humanos, no para agents</li>
+                </ul>
+            </div>
+            <div class="card p-8">
+                <h3 class="text-xl font-bold mb-4 accent-text">Lo que pasó</h3>
+                <ul class="space-y-3 opacity-80">
+                    <li>• Power users migraron a API (USD por token)</li>
+                    <li>• Muchos pasaron a CLI directa</li>
+                    <li>• La comunidad OpenClaw lo sintió fuerte</li>
+                </ul>
+            </div>
+        </div>
+        <div class="p-6 card-accent text-center">
+            <p class="text-xl font-bold italic">"Claude es para humanos, no para agents que queman compute."</p>
+            <p class="text-sm opacity-60 mt-2">— El mensaje implícito de Anthropic</p>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== SLIDE 8: MYTHOS ==================== -->
+<div class="slide" id="slide-8">
+    <div class="max-w-5xl mx-auto">
+        <div class="tag mb-4">HITO #5 // 7 ABRIL 2026 — NOTICIA FRESQUÍSIMA</div>
+        <h2 class="text-4xl font-bold mb-8">Claude Mythos: El modelo que <span class="accent-text">no te dejan usar</span></h2>
+        <div class="grid grid-cols-3 gap-6 mb-8">
+            <div class="card-accent p-6 text-center">
+                <p class="text-4xl font-bold accent-text">93.9%</p>
+                <p class="text-sm mt-2">SWE-bench (código)</p>
+            </div>
+            <div class="card-accent p-6 text-center">
+                <p class="text-4xl font-bold accent-text">94.6%</p>
+                <p class="text-sm mt-2">GPQA Diamond (ciencia)</p>
+            </div>
+            <div class="card-accent p-6 text-center">
+                <p class="text-4xl font-bold accent-text">0 → 181</p>
+                <p class="text-sm mt-2">Exploits autónomos (vs Opus: ~0)</p>
+            </div>
+        </div>
+        <div class="card p-8">
+            <ul class="space-y-4 text-lg">
+                <li>🔓 Encuentra zero-days en <strong>todos los OS y browsers principales</strong></li>
+                <li>🕰️ Encontró un bug de <strong>27 años</strong> en OpenBSD</li>
+                <li>🔗 Encadenó 4 vulnerabilidades y escapó de 2 sandboxes — <strong>solo</strong></li>
+                <li>🚫 Anthropic NO lo libera al público → <strong>Project Glasswing</strong></li>
+                <li>💰 <strong>USD 100M</strong> en créditos para ~50 empresas defensoras</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== SLIDE 9: MYTHOS REFLEXIÓN ==================== -->
+<div class="slide" id="slide-9">
+    <div class="max-w-5xl mx-auto text-center">
+        <div class="tag mb-4">LA REFLEXIÓN</div>
+        <h2 class="text-4xl font-bold mb-8">La IA ya no es solo <span class="accent-text">"productiva"</span></h2>
+        <div class="max-w-3xl mx-auto">
+            <div class="card p-8 mb-8">
+                <p class="text-2xl font-light leading-relaxed opacity-90">
+                    Anthropic creó un modelo que puede hackear cualquier sistema operativo del planeta. Y en vez de no construirlo, lo construyeron, lo limitaron a 50 empresas, y lo presentaron como un acto de responsabilidad.
+                </p>
+            </div>
+            <div class="grid grid-cols-3 gap-6">
+                <div class="card p-6">
+                    <p class="text-3xl mb-3">🔒</p>
+                    <p class="font-semibold">Soberanía de datos</p>
+                    <p class="text-sm opacity-60 mt-2">El modelo más potente no es público. La brecha se agranda.</p>
+                </div>
+                <div class="card p-6">
+                    <p class="text-3xl mb-3">🇦🇷</p>
+                    <p class="font-semibold">Argentina</p>
+                    <p class="text-sm opacity-60 mt-2">¿Quién audita nuestros bancos, apps y sistemas con estas herramientas?</p>
+                </div>
+                <div class="card p-6">
+                    <p class="text-3xl mb-3">⚔️</p>
+                    <p class="font-semibold">Arma de doble filo</p>
+                    <p class="text-sm opacity-60 mt-2">La IA es multiplicador. Quien la tenga primero tiene ventaja absoluta.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== SLIDE 10: BONUS ==================== -->
+<div class="slide" id="slide-10">
+    <div class="max-w-5xl mx-auto">
+        <div class="tag mb-4">BONUS // EL PANORAMA COMPLETO</div>
+        <h2 class="text-4xl font-bold mb-8">Lo que también <span class="accent-text">pasó</span></h2>
+        <div class="grid grid-cols-3 gap-6">
+            <div class="card p-6">
+                <p class="fira text-xs accent-text mb-3">MODELOS</p>
+                <h3 class="text-lg font-bold mb-2">Lanzamientos simultáneos</h3>
+                <p class="opacity-70 text-sm">Claude Opus 4.6, GPT-5.3 Codex, Gemini upgrades. Todos compitiendo por la corona agentic.</p>
+            </div>
+            <div class="card p-6">
+                <p class="fira text-xs accent-text mb-3">GEOPOLÍTICA</p>
+                <h3 class="text-lg font-bold mb-2">Anthropic vs. Pentágono</h3>
+                <p class="opacity-70 text-sm">Trump los tildó de "woke" y los sacó de contratos militares. OpenAI entró en su lugar.</p>
+            </div>
+            <div class="card p-6">
+                <p class="fira text-xs accent-text mb-3">ENERGÍA</p>
+                <h3 class="text-lg font-bold mb-2">Data centers al límite</h3>
+                <p class="opacity-70 text-sm">Crecimiento explosivo del consumo energético. Debate global sobre sostenibilidad.</p>
+            </div>
+        </div>
+        <div class="mt-8 p-6 card-accent text-center">
+            <p class="text-xl font-bold">Todo esto en 50 días. 🤯</p>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== SLIDE 11: CIERRE ==================== -->
+<div class="slide" id="slide-11">
+    <div class="max-w-5xl mx-auto text-center">
+        <div class="tag mb-6">AHORA</div>
+        <h2 class="text-5xl font-bold mb-8">Más fuertes, más locales,<br>listos para <span class="accent-text">seguir construyendo</span></h2>
+        <div class="max-w-2xl mx-auto card p-8 mb-8">
+            <p class="text-xl opacity-80 leading-relaxed">Mientras los labs de AI pelean por energía, cortan a los power users y retienen modelos por ser "demasiado peligrosos", nosotros seguimos acá — conectando, aprendiendo y construyendo desde Argentina.</p>
+        </div>
+        <div class="grid grid-cols-3 gap-6 max-w-3xl mx-auto mb-12">
+            <div class="card-accent p-4 text-center">
+                <p class="text-2xl mb-2">🤝</p>
+                <p class="font-semibold text-sm">Conectar</p>
+            </div>
+            <div class="card-accent p-4 text-center">
+                <p class="text-2xl mb-2">🛠️</p>
+                <p class="font-semibold text-sm">Compartir experiencias reales</p>
+            </div>
+            <div class="card-accent p-4 text-center">
+                <p class="text-2xl mb-2">🚀</p>
+                <p class="font-semibold text-sm">Seguir construyendo</p>
+            </div>
+        </div>
+        <div class="space-y-4 text-lg opacity-60">
+            <p>¿Quién más se quedó sin Claude a mitad de un agent?</p>
+            <p>¿Quién ya probó la CLI?</p>
+            <p>¿Qué opinan de Mythos?</p>
+        </div>
+        <div class="mt-12 text-sm fira opacity-30">
+            SPARK101 TECH // LA CRYPTA // OPENCLAW ARGENTINA
+        </div>
+    </div>
+</div>
+
+<!-- ==================== NAVEGACIÓN ==================== -->
+<button class="nav-btn" style="left:2rem" onclick="prevSlide()">← Anterior</button>
+<button class="nav-btn" style="right:2rem" onclick="nextSlide()">Siguiente →</button>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    let current = 0;
+    const total = slides.length;
+
+    function showSlide(n) {
+        slides[current].classList.remove('active');
+        current = Math.max(0, Math.min(n, total - 1));
+        slides[current].classList.add('active');
+        document.getElementById('progress').style.width = ((current / (total - 1)) * 100) + '%';
+    }
+    function nextSlide() { showSlide(current + 1); }
+    function prevSlide() { showSlide(current - 1); }
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+        if (e.key === 'ArrowLeft') prevSlide();
+    });
+
+    // Touch support
+    let touchStartX = 0;
+    document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+    document.addEventListener('touchend', e => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) { diff > 0 ? nextSlide() : prevSlide(); }
+    });
+</script>
+
+</body>
+</html>

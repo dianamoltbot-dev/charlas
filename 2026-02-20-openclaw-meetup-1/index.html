@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LA ERA DE LA LANGOSTA - OpenClaw</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #F5F1E6;
+            --brick: #A04028;
+            --ink: #1A1A1A;
+            --blueprint-line: rgba(160, 64, 40, 0.15);
+        }
+
+        body {
+            background-color: var(--paper);
+            color: var(--ink);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+
+        .fira { font-family: 'Fira Code', monospace; }
+
+        .blueprint-bg {
+            background-image:
+                linear-gradient(var(--blueprint-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--blueprint-line) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .slide {
+            display: none;
+            height: 100vh;
+            padding: 4rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .brick-text { color: var(--brick); }
+        .brick-bg { background-color: var(--brick); }
+
+        .border-blueprint {
+            border: 2px solid var(--ink);
+            box-shadow: 5px 5px 0px var(--brick);
+        }
+
+        .nav-btn {
+            position: fixed;
+            bottom: 2rem;
+            padding: 1rem;
+            background: var(--ink);
+            color: white;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: var(--brick);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background: var(--brick);
+            transition: width 0.3s;
+            z-index: 1000;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border: 1px solid var(--brick);
+            color: var(--brick);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        @media print {
+            body { overflow: visible; }
+            .slide {
+                display: flex !important;
+                flex-direction: column;
+                justify-content: center;
+                height: 100vh;
+                page-break-after: always;
+                page-break-inside: avoid;
+                animation: none;
+            }
+            .slide:last-of-type { page-break-after: auto; }
+            .nav-btn, .progress-bar { display: none !important; }
+            @page { size: landscape; margin: 0; }
+        }
+    </style>
+</head>
+<body class="blueprint-bg">
+
+    <div id="progress" class="progress-bar" style="width: 0%"></div>
+
+    <!-- Slide 1: Portada -->
+    <div class="slide active" id="slide-1">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="tag">SYSTEM_INITIALIZED // 2026</div>
+            <h1 class="text-7xl font-extrabold mb-4 tracking-tighter uppercase">
+                La Era de la <span class="brick-text">Langosta</span>
+            </h1>
+            <p class="text-2xl font-light mb-12 opacity-80">
+                La Revolucion de OpenClaw: Del lenguaje a la accion.
+            </p>
+            <div class="relative inline-block border-2 border-dashed border-red-800 p-8 rounded-lg">
+                <svg viewBox="0 0 200 120" class="w-96 h-auto mx-auto opacity-40">
+                    <path d="M100,20 C120,20 140,40 140,70 L140,100 L60,100 L60,70 C60,40 80,20 100,20 Z" fill="none" stroke="currentColor" stroke-width="1"/>
+                    <path d="M40,40 L60,60 M160,40 L140,60" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="80" cy="50" r="5" fill="currentColor"/>
+                    <circle cx="120" cy="50" r="5" fill="currentColor"/>
+                    <text x="100" y="115" text-anchor="middle" font-size="8" class="fira">MODEL: OPENCLAW_V2</text>
+                </svg>
+            </div>
+            <div class="mt-12 text-sm fira opacity-60">
+                BY ING. CAMILA VELASCO // FOUNDER SPARK101 TECH
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 2: Contexto -->
+    <div class="slide" id="slide-2">
+        <div class="grid grid-cols-2 gap-12 max-w-6xl mx-auto items-center">
+            <div>
+                <h2 class="text-5xl font-bold mb-8">El Despertar de la <span class="brick-text">Agencia</span></h2>
+                <div class="space-y-6">
+                    <div class="p-6 border-l-4 border-gray-400 bg-white/50">
+                        <span class="fira font-bold block mb-2">2022: EL LENGUAJE (ChatGPT)</span>
+                        <p>La IA con la que hablamos. Generacion de texto e ideas, pero atrapada en una pestana del navegador.</p>
+                    </div>
+                    <div class="p-6 border-l-4 border-red-800 bg-white shadow-xl">
+                        <span class="fira font-bold brick-text block mb-2">2026: LA AGENCIA (OpenClaw)</span>
+                        <p>La IA que <strong>hace</strong> cosas. Acceso total al sistema, terminal, y ejecucion autonoma de herramientas.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center p-8 bg-black text-white rounded-xl">
+                <div class="text-4xl mb-4">🚀</div>
+                <p class="text-2xl font-bold italic mb-4">"Cruzamos la linea del lenguaje a la agencia."</p>
+                <p class="opacity-70 fira text-sm">Un empleado digital en tu sistema operativo.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: El Problema -->
+    <div class="slide" id="slide-3">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-12 text-center">El Limite Fisico de <span class="brick-text">Hacer Todo Solo</span></h2>
+            <div class="grid grid-cols-3 gap-8">
+                <div class="border-blueprint p-8 bg-white text-center">
+                    <div class="text-3xl mb-4">✍️</div>
+                    <p class="font-bold">Presupuestos a mano</p>
+                    <p class="text-sm opacity-60 mt-2">Horas perdidas en tareas mecanicas.</p>
+                </div>
+                <div class="border-blueprint p-8 bg-white text-center">
+                    <div class="text-3xl mb-4">📧</div>
+                    <p class="font-bold">Emails uno por uno</p>
+                    <p class="text-sm opacity-60 mt-2">Tu tiempo es el cuello de botella.</p>
+                </div>
+                <div class="border-blueprint p-8 bg-white text-center">
+                    <div class="text-3xl mb-4">📱</div>
+                    <p class="font-bold">WhatsApp 23:00 hs</p>
+                    <p class="text-sm opacity-60 mt-2">Quemar tu energia no es escalar.</p>
+                </div>
+            </div>
+            <div class="mt-16 p-8 bg-red-900 text-white text-center rounded-lg">
+                <p class="text-2xl font-bold">Eres el principal cuello de botella de tus propias ventas.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Paradigma Constructor -->
+    <div class="slide" id="slide-4">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-5xl font-bold mb-12">De "Vibe Coding" a <span class="brick-text">Ingenieria Agentica</span></h2>
+            <div class="grid grid-cols-2 gap-8">
+                <div class="p-8 border-2 border-dashed border-gray-400">
+                    <h3 class="text-2xl font-bold mb-4 opacity-50">EL PROGRAMADOR (Pasado)</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-center">❌ Sintaxis manual repetitiva</li>
+                        <li class="flex items-center">❌ Codigo dificil de mantener</li>
+                        <li class="flex items-center">❌ Burnout por complejidad</li>
+                    </ul>
+                </div>
+                <div class="p-8 border-2 border-red-800 bg-white shadow-2xl">
+                    <h3 class="text-2xl font-bold mb-4 brick-text">EL CONSTRUCTOR (Futuro)</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-center">✅ Enfoque en arquitectura</li>
+                        <li class="flex items-center">✅ Sistemas auto-mejorables</li>
+                        <li class="flex items-center">✅ Lideras un ejercito de agentes</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="mt-12 text-center text-xl fira font-bold">Multiplica tu capacidad x10.</p>
+        </div>
+    </div>
+
+    <!-- Slide 5: Solucion Equipo Digital -->
+    <div class="slide" id="slide-5">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-5xl font-bold mb-12">Un sistema que trabaja <span class="brick-text">mientras vos dormis</span></h2>
+            <div class="relative bg-white p-12 border-blueprint inline-block">
+                <div class="grid grid-cols-2 gap-16">
+                    <div class="text-left space-y-8">
+                        <div>
+                            <span class="text-red-800 font-bold block">DISPONIBILIDAD 24/7</span>
+                            <p class="text-sm">Sin sueldos, sin vacaciones, sin excusas.</p>
+                        </div>
+                        <div>
+                            <span class="text-red-800 font-bold block">SEGUIMIENTO AUTOMATICO</span>
+                            <p class="text-sm">Toma los leads y los nutre hasta el cierre.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-center">
+                        <div class="w-48 h-48 rounded-full border-4 border-red-800 flex items-center justify-center bg-red-50 relative">
+                            <span class="text-5xl">⚙️</span>
+                            <div class="absolute -top-4 -right-4 bg-red-800 text-white p-2 rounded text-xs fira">AGENT_CORE</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Arquitectura -->
+    <div class="slide" id="slide-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold mb-8 text-center uppercase tracking-widest">La Arquitectura de la Mision</h2>
+            <div class="grid grid-cols-4 gap-4 items-stretch">
+                <div class="p-6 bg-white border-blueprint text-center">
+                    <div class="fira text-xs mb-4 opacity-50">CONTROL</div>
+                    <div class="text-2xl font-bold">TU</div>
+                    <p class="text-xs mt-2">Mando total y vision de negocio.</p>
+                </div>
+                <div class="p-6 bg-white border-blueprint text-center">
+                    <div class="fira text-xs mb-4 opacity-50">INTERFAZ</div>
+                    <div class="text-2xl font-bold">CHAT APP</div>
+                    <p class="text-xs mt-2">Telegram / Discord como centro de mando.</p>
+                </div>
+                <div class="p-6 bg-red-800 text-white border-blueprint text-center">
+                    <div class="fira text-xs mb-4 opacity-50">CLOUD</div>
+                    <div class="text-2xl font-bold uppercase">Railway</div>
+                    <p class="text-xs mt-2">Memoria y ejecucion en servidor virtual.</p>
+                </div>
+                <div class="p-6 bg-white border-blueprint text-center">
+                    <div class="fira text-xs mb-4 opacity-50">LLM</div>
+                    <div class="text-2xl font-bold">MOTOR IA</div>
+                    <p class="text-xs mt-2">Anthropic / OpenAI (El cerebro).</p>
+                </div>
+            </div>
+            <div class="mt-12 text-center p-4 border-2 border-dashed border-red-800 rounded">
+                <p class="fira font-bold brick-text">"Tu laptop no se toca. Todo el ciclo de vida ocurre en la nube."</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Spark News - Soberania -->
+    <div class="slide" id="slide-7">
+        <div class="max-w-6xl mx-auto">
+            <div class="tag mb-4">SPARK_NEWS // SOBERANIA TECNOLOGICA</div>
+            <h2 class="text-5xl font-bold mb-12">Los 3 Niveles de <span class="brick-text">Soberania</span></h2>
+            <div class="space-y-6">
+                <div class="p-6 bg-white border-l-8 border-red-500 shadow-lg">
+                    <div class="flex items-start gap-4">
+                        <span class="text-3xl">🔴</span>
+                        <div>
+                            <h3 class="text-xl font-bold mb-1">Nivel 1 — Claude Desktop / ChatGPT <span class="fira text-sm opacity-50">(CERO SOBERANIA)</span></h3>
+                            <p>Todo corre en la nube de Anthropic u OpenAI. Tus datos pasan por sus servidores.</p>
+                            <p class="opacity-60 mt-1">Ellos ponen las reglas, los limites, los precios. Si cambian los terminos, bancatela.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 bg-white border-l-8 border-yellow-500 shadow-lg">
+                    <div class="flex items-start gap-4">
+                        <span class="text-3xl">🟡</span>
+                        <div>
+                            <h3 class="text-xl font-bold mb-1">Nivel 2 — NemoClaw <span class="fira text-sm opacity-50">(SOBERANIA PARCIAL)</span></h3>
+                            <p>OpenClaw + capa de seguridad de Nvidia. Es open source, podes auditarlo.</p>
+                            <p class="opacity-60 mt-1">Pero las politicas de OpenShell son nuevas, no estan battle-tested. La comunidad aun tiene que romperlo y parchearlo.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 bg-white border-l-8 border-green-600 shadow-lg">
+                    <div class="flex items-start gap-4">
+                        <span class="text-3xl">🟢</span>
+                        <div>
+                            <h3 class="text-xl font-bold mb-1">Nivel 3 — LLM Local en Hardware Propio <span class="fira text-sm opacity-50">(SOBERANIA TOTAL)</span></h3>
+                            <p>Ollama + Claude Code gratis en tu propia maquina. Los datos nunca salen de tu compu.</p>
+                            <p class="opacity-60 mt-1">Air-gapped, sin depender de ninguna empresa, ninguna politica que cambie. La posta.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Actividad - Proposito del Agente -->
+    <div class="slide" id="slide-8">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <div class="tag">ACTIVIDAD // 5 MINUTOS</div>
+                <h2 class="text-5xl font-bold mt-4">Pensemos en el <span class="brick-text">Proposito</span> de tu Agente</h2>
+                <p class="text-xl opacity-70 mt-4">Este es el motor de todo tu negocio. Sin proposito claro, no hay agente util.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-8">
+                <div class="p-8 bg-white border-blueprint">
+                    <h3 class="text-xl font-bold brick-text mb-4">PREGUNTATE:</h3>
+                    <ul class="space-y-4 text-lg">
+                        <li class="flex items-start gap-3">
+                            <span class="brick-text font-bold">01.</span>
+                            <span>¿Cual es la tarea que mas tiempo te consume y menos valor te genera?</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="brick-text font-bold">02.</span>
+                            <span>¿Que harias si tuvieras un empleado digital 24/7 sin costo fijo?</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="brick-text font-bold">03.</span>
+                            <span>¿Donde estas perdiendo clientes por no responder a tiempo?</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="p-8 bg-black text-white rounded-xl">
+                    <h3 class="text-xl font-bold mb-6 text-center">EL PROPOSITO ES TU VENTAJA COMPETITIVA</h3>
+                    <div class="space-y-4 text-sm">
+                        <p>Un agente sin proposito es un chatbot mas. Un agente con proposito es un <strong>sistema de ventas automatizado</strong>.</p>
+                        <p>El proposito define: que dice, como responde, cuando escala a un humano, y como cierra.</p>
+                        <div class="mt-6 p-4 border border-white/30 rounded">
+                            <p class="fira text-xs opacity-70">FORMULA:</p>
+                            <p class="text-lg font-bold mt-2">"Mi agente [ACCION] para [CLIENTE] cuando [TRIGGER]"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="mt-8 text-center fira text-sm opacity-60">Tomate 5 minutos. Escribi tu proposito. Esto es lo que vamos a construir.</p>
+        </div>
+    </div>
+
+    <!-- Slide 9: Construi tu Agente AHORA -->
+    <div class="slide" id="slide-9">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-8">
+                <div class="tag">ACTIVIDAD EN VIVO // AHORA</div>
+                <h2 class="text-5xl font-bold mt-4">Construi el <span class="brick-text">Proposito</span> de tu Agente</h2>
+                <p class="text-xl opacity-70 mt-4">Lo que pensaste en papel, ahora lo volcamos a la IA. Abri Claude o ChatGPT y dale este prompt.</p>
+            </div>
+            <div class="p-8 bg-black text-white rounded-xl mb-8 relative">
+                <button onclick="copyPrompt()" class="absolute top-4 right-4 bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded fira text-xs transition-colors">📋 Copiar</button>
+                <p class="fira text-sm leading-relaxed" id="agent-prompt">Quiero crear un agente de IA para mi negocio. Ayudame a definirlo paso a paso:
+
+1. Mi negocio/profesion es: [completar]
+2. La tarea que mas tiempo me consume y menos valor genera es: [completar]
+3. Donde pierdo clientes por no responder a tiempo: [completar]
+4. Mi agente ideal deberia: [completar]
+
+Con esta info, armame:
+- Un nombre para mi agente
+- Su proposito en una oracion (formato: "Mi agente [ACCION] para [CLIENTE] cuando [TRIGGER]")
+- Las 3 tareas principales que deberia hacer
+- Su personalidad y tono de voz
+- Un mensaje de bienvenida que usaria con mis clientes</p>
+            </div>
+            <div class="grid grid-cols-2 gap-6 max-w-3xl mx-auto">
+                <a href="https://claude.ai/new" target="_blank" class="p-6 bg-white border-blueprint text-center hover:scale-105 transition-transform block">
+                    <div class="text-4xl mb-3">🟤</div>
+                    <h3 class="text-xl font-bold">Abrir Claude</h3>
+                    <p class="text-sm opacity-60 mt-1">claude.ai → pegar prompt</p>
+                </a>
+                <a href="https://chatgpt.com/" target="_blank" class="p-6 bg-white border-blueprint text-center hover:scale-105 transition-transform block">
+                    <div class="text-4xl mb-3">🟢</div>
+                    <h3 class="text-xl font-bold">Abrir ChatGPT</h3>
+                    <p class="text-sm opacity-60 mt-1">chatgpt.com → pegar prompt</p>
+                </a>
+            </div>
+            <p class="mt-8 text-center text-lg font-bold brick-text">Completa los [espacios], pega, y en 2 minutos tenes el ADN de tu agente. 🔥</p>
+            <p class="mt-2 text-center text-sm opacity-60 fira">Esto que haces ahora es lo que profundizamos en SPARK LAB — llevarlo a produccion real.</p>
+        </div>
+    </div>
+
+    <!-- Slide 10: Dinamica - Tienen Claude? (Firebase Live Voting) -->
+    <div class="slide" id="slide-10">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-5xl font-bold mb-4">Una pregunta tech..</h2>
+            <h2 class="text-6xl font-extrabold brick-text mb-8">¿Quienes de aca tienen Claude?</h2>
+            <div class="grid grid-cols-2 gap-8 max-w-3xl mx-auto">
+                <button onclick="voteClaude('yes')" id="btn-yes" class="p-8 bg-white border-blueprint cursor-pointer hover:scale-105 transition-transform">
+                    <div class="text-4xl mb-4">🙋</div>
+                    <h3 class="text-xl font-bold mb-2">YA LO TENGO</h3>
+                    <p class="text-sm opacity-60">Perfecto. Abrilo y seguime.</p>
+                    <div id="count-yes" class="text-4xl font-black brick-text mt-4">0</div>
+                </button>
+                <button onclick="voteClaude('no')" id="btn-no" class="p-8 bg-red-800 text-white border-blueprint cursor-pointer hover:scale-105 transition-transform">
+                    <div class="text-4xl mb-4">📲</div>
+                    <h3 class="text-xl font-bold mb-2">NO LO TENGO</h3>
+                    <p class="text-sm opacity-90">Votá y descargalo abajo.</p>
+                    <div id="count-no" class="text-4xl font-black mt-4">0</div>
+                </button>
+            </div>
+            <!-- Download button OUTSIDE voting -->
+            <div class="mt-6">
+                <a href="https://claude.ai/download" target="_blank" class="inline-block px-8 py-4 bg-black text-white rounded-lg font-bold text-lg hover:bg-red-800 transition-colors fira">⬇ Descargar Claude gratis → claude.ai/download</a>
+            </div>
+            <!-- Live bar -->
+            <div class="mt-8 max-w-3xl mx-auto">
+                <div class="w-full bg-gray-200 rounded-full h-8 overflow-hidden flex">
+                    <div id="bar-yes" class="bg-green-600 h-full transition-all duration-500 flex items-center justify-center text-white text-sm font-bold" style="width:50%">
+                        <span id="pct-yes">0%</span>
+                    </div>
+                    <div id="bar-no" class="bg-red-800 h-full transition-all duration-500 flex items-center justify-center text-white text-sm font-bold" style="width:50%">
+                        <span id="pct-no">0%</span>
+                    </div>
+                </div>
+                <div class="flex justify-between mt-2 text-sm fira opacity-60">
+                    <span>🙋 Ya lo tengo</span>
+                    <span id="total-votes">0 votos</span>
+                    <span>📲 No lo tengo</span>
+                </div>
+            </div>
+            <div class="mt-8 p-6 bg-white border-2 border-dashed border-red-800 rounded-lg inline-block">
+                <p class="text-xl font-bold">Vamos a probarlo juntos. Ahora. En vivo.</p>
+                <p class="text-sm opacity-60 mt-2 fira">HANDS-ON // NO HAY TEORIA SIN PRACTICA</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Imaginate - Bridge a Spark Lab -->
+    <div class="slide" id="slide-11">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-4 opacity-60">Ahora imaginate...</h2>
+            <h2 class="text-5xl font-extrabold mb-12">No tener que tener la compu <span class="brick-text">abierta ni corriendo</span></h2>
+            <div class="grid grid-cols-3 gap-6 mb-12">
+                <div class="p-6 bg-white border-blueprint">
+                    <div class="text-3xl mb-3">💤</div>
+                    <p class="font-bold">Vos dormis</p>
+                    <p class="text-sm opacity-60 mt-1">Tu agente responde, califica y agenda.</p>
+                </div>
+                <div class="p-6 bg-white border-blueprint">
+                    <div class="text-3xl mb-3">🏗️</div>
+                    <p class="font-bold">El agente construye</p>
+                    <p class="text-sm opacity-60 mt-1">Plataformas, landing pages, sistemas completos.</p>
+                </div>
+                <div class="p-6 bg-white border-blueprint">
+                    <div class="text-3xl mb-3">📈</div>
+                    <p class="font-bold">Tu negocio escala</p>
+                    <p class="text-sm opacity-60 mt-1">Sin contratar, sin depender de nadie.</p>
+                </div>
+            </div>
+            <div class="p-8 bg-red-800 text-white rounded-xl shadow-2xl inline-block">
+                <p class="text-3xl font-black mb-2">Eso es lo que hacemos en SPARK LAB.</p>
+                <p class="text-lg opacity-80">Tu agente trabajando en la nube, 24/7, construyendo para vos.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 11: Spark Lab Intro -->
+    <div class="slide" id="slide-12">
+        <div class="max-w-5xl mx-auto">
+            <div class="grid grid-cols-2 gap-12 items-center">
+                <div class="bg-red-800 text-white p-12 transform -rotate-2 shadow-2xl">
+                    <h2 class="text-5xl font-black mb-6 italic">SPARK LAB</h2>
+                    <p class="text-xl opacity-90">No es un curso teorico. No es un PDF interminable.</p>
+                    <div class="mt-8 text-3xl font-bold">100% PRACTICO</div>
+                </div>
+                <div class="space-y-8">
+                    <div class="border-b-2 border-red-800 pb-4">
+                        <h3 class="text-2xl font-bold">PROMESA: 90 A 120 MIN</h3>
+                        <p class="opacity-70">Salis con tu propio agente ensamblado y funcionando.</p>
+                    </div>
+                    <div class="border-b-2 border-red-800 pb-4">
+                        <h3 class="text-2xl font-bold">IMPACTO INMEDIATO</h3>
+                        <p class="opacity-70">Tu agente trabaja para tu negocio ese mismo dia.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 12: Plan de Accion -->
+    <div class="slide" id="slide-13">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold mb-12 text-center">Plan de Accion: De Cero a Produccion</h2>
+            <div class="grid grid-cols-2 gap-12">
+                <div class="space-y-6">
+                    <h3 class="fira font-bold text-xl border-l-4 border-red-800 pl-4">DIA 1: SETUP & RAZONAMIENTO</h3>
+                    <ul class="space-y-2 opacity-80">
+                        <li>• Introduccion practica a Claude + OpenClaw.</li>
+                        <li>• Configuracion de arquitectura en la nube (Railway).</li>
+                        <li>• Inyeccion de identidad y memoria base.</li>
+                    </ul>
+                </div>
+                <div class="space-y-6">
+                    <h3 class="fira font-bold text-xl border-l-4 border-red-800 pl-4">DIA 2: EL BUCLE INFINITO</h3>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-200 px-2 py-1 text-xs fira">OBSERVAR</span>
+                        <span class="bg-gray-200 px-2 py-1 text-xs fira">PENSAR</span>
+                        <span class="bg-gray-200 px-2 py-1 text-xs fira">PLANEAR</span>
+                        <span class="bg-gray-200 px-2 py-1 text-xs fira">ACTUAR</span>
+                    </div>
+                    <p class="text-sm font-bold brick-text uppercase tracking-tighter">Auto-modificacion: El agente mejora su propio codigo.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 13: Diferencial -->
+    <div class="slide" id="slide-14">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-4">¿Por que <span class="brick-text">Spark Lab</span>?</h2>
+                <p class="opacity-60 fira">VALIDACION TECNICA Y DE MERCADO</p>
+                <p class="text-xs opacity-40 mt-2 italic">Elegimos enseñar a usar IA reactiva + IA proactiva porque OpenClaw es:</p>
+            </div>
+            <div class="grid grid-cols-3 gap-8">
+                <div class="p-8 bg-white border-blueprint text-center">
+                    <div class="text-4xl font-bold brick-text">180K+</div>
+                    <div class="text-xs fira mt-2">GITHUB STARS</div>
+                    <p class="text-sm mt-4 italic">Estado viral y validado globalmente.</p>
+                </div>
+                <div class="p-8 bg-white border-blueprint text-center">
+                    <div class="text-4xl font-bold brick-text">100%</div>
+                    <div class="text-xs fira mt-2">ENFOQUE NEGOCIO</div>
+                    <p class="text-sm mt-4 italic">No es solo tecnologia, es rentabilidad.</p>
+                </div>
+                <div class="p-8 bg-white border-blueprint text-center">
+                    <div class="text-4xl font-bold brick-text">R3</div>
+                    <div class="text-xs fira mt-2">NIVEL PROD</div>
+                    <p class="text-sm mt-4 italic">Implementaciones mensuales reales.</p>
+                </div>
+            </div>
+            <p class="mt-16 text-center text-2xl font-bold italic opacity-80">
+                "La gente habla de software auto-modificable. Yo simplemente lo construi."
+            </p>
+        </div>
+    </div>
+
+    <!-- Slide 14: La Oferta -->
+    <!-- Slide 15: Costos Reales -->
+    <div class="slide" id="slide-15">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-10">
+                <div class="tag">TRANSPARENCIA // NUMEROS REALES</div>
+                <h2 class="text-5xl font-bold mt-4">¿Cuanto cuesta tener un <span class="brick-text">agente propio</span>?</h2>
+                <p class="text-xl opacity-70 mt-4">Menos que un cafe por dia. En serio.</p>
+            </div>
+            <div class="grid grid-cols-3 gap-8 mb-10">
+                <div class="p-8 bg-white border-blueprint text-center">
+                    <div class="text-4xl mb-3">🧠</div>
+                    <h3 class="text-xl font-bold mb-2">Claude Pro</h3>
+                    <div class="text-4xl font-black brick-text">USD 20</div>
+                    <div class="text-xs fira mt-1">/MES</div>
+                    <p class="text-sm opacity-60 mt-3">El cerebro. Razonamiento avanzado, codigo, analisis.</p>
+                </div>
+                <div class="p-8 bg-white border-blueprint text-center">
+                    <div class="text-4xl mb-3">☁️</div>
+                    <h3 class="text-xl font-bold mb-2">Railway</h3>
+                    <div class="text-4xl font-black brick-text">USD 5</div>
+                    <div class="text-xs fira mt-1">/MES</div>
+                    <p class="text-sm opacity-60 mt-3">El cuerpo. Tu agente vive en la nube 24/7.</p>
+                </div>
+                <div class="p-8 bg-red-800 text-white border-blueprint text-center">
+                    <div class="text-4xl mb-3">💰</div>
+                    <h3 class="text-xl font-bold mb-2">TOTAL</h3>
+                    <div class="text-4xl font-black">USD 25</div>
+                    <div class="text-xs fira mt-1">/MES</div>
+                    <p class="text-sm opacity-90 mt-3">~$30.000 ARS. Menos que un almuerzo ejecutivo.</p>
+                </div>
+            </div>
+            <div class="p-6 bg-white border-2 border-dashed border-red-800 rounded-lg text-center">
+                <p class="text-2xl font-bold">El objetivo: que tu agente se <span class="brick-text">repague solo</span> el primer mes.</p>
+                <p class="text-sm opacity-60 mt-2 fira">1 AHORRO POR MES = AGENTE GRATIS PARA SIEMPRE</p>
+                <p class="text-xs opacity-40 mt-3 italic">Tu agente tambien puede ayudarte a reducir gastos fijos: automatizar tareas repetitivas, eliminar suscripciones innecesarias y optimizar procesos que hoy te cuestan tiempo y plata.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 16: Casos Autosustentables -->
+    <div class="slide" id="slide-16">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-10">
+                <h2 class="text-5xl font-bold">Agentes que ya se <span class="brick-text">pagan solos</span></h2>
+                <p class="text-xl opacity-70 mt-3">Casos reales de agentes generando ingresos autonomos.</p>
+            </div>
+            <div class="grid grid-cols-3 gap-6">
+                <div class="p-6 bg-white border-blueprint">
+                    <div class="text-3xl mb-3">🛒</div>
+                    <h3 class="font-bold text-lg mb-2">Agente Vendedor</h3>
+                    <p class="text-sm opacity-70 mb-4">Responde WhatsApp e Instagram 24/7, califica leads, maneja objeciones y agenda reuniones en tu calendario. Vos solo cerras.</p>
+                    <div class="p-3 bg-green-50 border border-green-500 rounded">
+                        <span class="text-xs fira opacity-50">RESULTADO:</span>
+                        <p class="font-bold text-green-700">+5 clientes/mes = USD 1.500</p>
+                        <p class="text-xs opacity-60">Costo: USD 25 → ROI: 5.900%</p>
+                    </div>
+                </div>
+                <div class="p-6 bg-white border-blueprint">
+                    <div class="text-3xl mb-3">💻</div>
+                    <h3 class="font-bold text-lg mb-2">Agente Programador</h3>
+                    <p class="text-sm opacity-70 mb-4">Recibe una descripcion, genera codigo, lo prueba, debuguea y deployea. Landings, apps, integraciones. Sin contratar dev.</p>
+                    <div class="p-3 bg-green-50 border border-green-500 rounded">
+                        <span class="text-xs fira opacity-50">RESULTADO:</span>
+                        <p class="font-bold text-green-700">Ahorro USD 1.500/mes en desarrollo</p>
+                        <p class="text-xs opacity-60">Un dev junior full-time sin sueldo fijo</p>
+                    </div>
+                </div>
+                <div class="p-6 bg-white border-blueprint">
+                    <div class="text-3xl mb-3">📣</div>
+                    <h3 class="font-bold text-lg mb-2">Agente Marketer</h3>
+                    <p class="text-sm opacity-70 mb-4">Genera posts, responde comentarios, programa publicaciones en redes y analiza metricas. Tu community manager que nunca duerme.</p>
+                    <div class="p-3 bg-green-50 border border-green-500 rounded">
+                        <span class="text-xs fira opacity-50">RESULTADO:</span>
+                        <p class="font-bold text-green-700">Engagement 24/7 + 30hs/mes libres</p>
+                        <p class="text-xs opacity-60">Nunca pide aumento ni se toma vacaciones</p>
+                    </div>
+                </div>
+            </div>
+            <p class="mt-10 text-center text-xl font-bold italic opacity-80">"No es ciencia ficcion. Es un script, un proposito y USD 25 por mes."</p>
+        </div>
+    </div>
+
+    <!-- Slide 17: La Oferta -->
+    <div class="slide" id="slide-17">
+        <div class="max-w-4xl mx-auto border-4 border-red-800 p-12 bg-white relative">
+            <div class="absolute -top-6 -left-6 bg-red-800 text-white px-6 py-2 fira text-sm">OFERTA_LIMITADA</div>
+            <h2 class="text-4xl font-black mb-8">SUMATE AL LABORATORIO</h2>
+            <div class="grid grid-cols-2 gap-8 mb-12">
+                <ul class="space-y-4 font-bold">
+                    <li>✅ De Claude a OpenClaw</li>
+                    <li>✅ Sesiones en Vivo (7 y 14 de Abril)</li>
+                    <li>✅ Comunidad + Networking</li>
+                    <li>✅ Acceso a plataforma de forma anticipada</li>
+                </ul>
+                <div class="text-center p-8 bg-red-50 border-2 border-red-800">
+                    <div class="text-sm opacity-60">INVERSION</div>
+                    <div class="text-5xl font-black brick-text">$65.000</div>
+                    <div class="text-xs mt-2 fira">ARS // PRECIO CONGELADO</div>
+                </div>
+            </div>
+            <p class="text-center font-bold uppercase text-red-800 animate-pulse">
+                Cupos estrictamente limitados (Solo 25 plazas)
+            </p>
+        </div>
+    </div>
+
+    <!-- Slide 15: CTA -->
+    <div class="slide" id="slide-18">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-5xl font-extrabold mb-4 uppercase">El momento de construir es <span class="brick-text">Hoy</span></h2>
+            <p class="text-xl mb-12 opacity-70">Escanea el codigo para asegurar tu lugar en la vanguardia.</p>
+
+            <div class="bg-white p-4 border-blueprint inline-block mb-12">
+                <img src="QR.png" alt="QR Code Spark Lab" class="w-64 h-64 object-contain">
+            </div>
+
+            <p class="text-2xl font-light italic">
+                "Si queres estar a la vanguardia tecnologica en tu negocio, tenes que estar aca."
+            </p>
+        </div>
+    </div>
+
+    <!-- Slide 16: Bitcoin + Agentes IA -->
+    <div class="slide" id="slide-19">
+        <div class="max-w-6xl mx-auto">
+            <div class="tag mb-4">SPARK_NEWS // BITCOIN & AGENTES</div>
+            <h2 class="text-4xl font-bold mb-8">Los agentes de IA ya eligieron: <span class="brick-text">prefieren sats</span></h2>
+            <div class="grid grid-cols-2 gap-8">
+                <div class="space-y-5">
+                    <div class="p-5 bg-white border-l-4 border-orange-500 shadow">
+                        <h3 class="font-bold text-lg mb-2">El Experimento</h3>
+                        <p class="text-sm">36 modelos de IA (OpenAI, Anthropic, xAI, Google). 9.072 experimentos controlados. Libre albedrio total. Sin sugerir ninguna moneda.</p>
+                        <div class="flex gap-4 mt-3">
+                            <div class="text-center">
+                                <div class="text-2xl font-black text-orange-600">48.3%</div>
+                                <div class="text-xs fira">BITCOIN</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-black opacity-50">33%</div>
+                                <div class="text-xs fira">STABLECOINS</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-black opacity-30">9%</div>
+                                <div class="text-xs fira">FIAT</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 bg-white border-l-4 border-orange-500 shadow">
+                        <h3 class="font-bold text-lg mb-2">¿Por que?</h3>
+                        <p class="text-sm">Un agente no puede ir al banco, no tiene DNI, no firma papeles. Pero puede generar una wallet en milisegundos y pagar por Lightning en menos de un segundo. Sin intermediarios, sin fronteras.</p>
+                        <p class="text-sm mt-2 font-bold brick-text">Bitcoin es nativo digital — como los agentes.</p>
+                    </div>
+                </div>
+                <div class="space-y-5">
+                    <div class="p-5 bg-black text-white rounded-xl">
+                        <h3 class="font-bold text-lg mb-2">Dato clave</h3>
+                        <p class="text-sm">La preferencia por Bitcoin <strong>crece con la inteligencia del modelo</strong>. Los mas capaces eligen Bitcoin con mas frecuencia. No es sesgo — es conclusion logica.</p>
+                        <p class="text-xs mt-3 opacity-70 italic fira">"Las preferencias monetarias reveladas favorecen fuertemente los sistemas abiertos y permissionless."</p>
+                    </div>
+                    <div class="p-5 bg-white border-l-4 border-orange-500 shadow">
+                        <h3 class="font-bold text-lg mb-2">El futuro agentic se paga en sats</h3>
+                        <p class="text-sm">CZ, Brian Armstrong y protocolos como x402 ya construyen la infra. Millones de agentes haciendo micropagos autonomos: 50 sats por procesar una imagen, 200 sats por traducir un documento. Lightning Network fue disenada para esto.</p>
+                    </div>
+                    <div class="p-4 border-2 border-dashed border-orange-500 rounded text-center">
+                        <p class="fira text-sm font-bold text-orange-600">"Los agentes ya eligieron. La pregunta no es si va a pasar — es si vamos a estar listos."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 17: QR Bitcoin - Descuento Sats -->
+    <div class="slide" id="slide-20">
+        <div class="max-w-5xl mx-auto">
+            <div class="grid grid-cols-2 gap-8 items-center">
+                <div class="text-center">
+                    <h2 class="text-4xl font-extrabold mb-1 uppercase">Paga en <span class="text-orange-600">Satoshis</span></h2>
+                    <h3 class="text-2xl font-bold brick-text mb-6">y obtene un 15% de descuento</h3>
+                    <div class="bg-white p-3 border-blueprint inline-block">
+                        <img src="QR_BTC.png" alt="QR Bitcoin Spark Lab" class="w-48 h-48 object-contain">
+                    </div>
+                </div>
+                <div class="space-y-5">
+                    <div class="p-5 bg-orange-50 border-2 border-orange-500 rounded-xl">
+                        <div class="flex items-center gap-3">
+                            <span class="text-3xl">⚡</span>
+                            <div>
+                                <span class="text-sm opacity-60 line-through">$65.000 ARS</span>
+                                <div class="text-4xl font-black text-orange-600">$55.250 ARS</div>
+                                <div class="text-xs fira mt-1">EQUIVALENTE EN SATS VIA LIGHTNING</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 bg-black text-white rounded-xl">
+                        <p class="text-lg font-bold mb-1">¿No tenes satoshis todavia?</p>
+                        <p class="text-sm opacity-80">Hacemos un <strong>taller en vivo</strong> para que puedas convertirte en bitcoiner.</p>
+                        <p class="text-xs opacity-60 mt-2 fira">HANDS-ON // TU PRIMERA WALLET + TUS PRIMEROS SATS</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 21: Encuesta - Te gusto? (Firebase) -->
+    <div class="slide" id="slide-21">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-5xl font-bold mb-4">¿Te gusto participar?</h2>
+            <h2 class="text-3xl font-bold brick-text mb-10">Tu feedback nos ayuda a mejorar 🙌</h2>
+            <div class="grid grid-cols-2 gap-8 max-w-3xl mx-auto">
+                <button onclick="voteFeedback('si')" id="btn-fb-si" class="p-10 bg-white border-blueprint cursor-pointer hover:scale-105 transition-transform">
+                    <div class="text-5xl mb-4">🔥</div>
+                    <h3 class="text-2xl font-bold mb-2">Si, reee!</h3>
+                    <p class="text-sm opacity-60">Me encanto, quiero mas.</p>
+                    <div id="count-fb-si" class="text-4xl font-black brick-text mt-4">0</div>
+                </button>
+                <button onclick="voteFeedback('aprender')" id="btn-fb-aprender" class="p-10 bg-red-800 text-white border-blueprint cursor-pointer hover:scale-105 transition-transform">
+                    <div class="text-5xl mb-4">🧠</div>
+                    <h3 class="text-2xl font-bold mb-2">Quiero seguir aprendiendo</h3>
+                    <p class="text-sm opacity-90">Me falta entender mas pero quiero profundizar.</p>
+                    <div id="count-fb-aprender" class="text-4xl font-black mt-4">0</div>
+                </button>
+            </div>
+            <!-- Live bar feedback -->
+            <div class="mt-8 max-w-3xl mx-auto">
+                <div class="w-full bg-gray-200 rounded-full h-8 overflow-hidden flex">
+                    <div id="bar-fb-si" class="bg-green-600 h-full transition-all duration-500 flex items-center justify-center text-white text-sm font-bold" style="width:50%">
+                        <span id="pct-fb-si">0%</span>
+                    </div>
+                    <div id="bar-fb-aprender" class="bg-red-800 h-full transition-all duration-500 flex items-center justify-center text-white text-sm font-bold" style="width:50%">
+                        <span id="pct-fb-aprender">0%</span>
+                    </div>
+                </div>
+                <div class="flex justify-between mt-2 text-sm fira opacity-60">
+                    <span>🔥 Si, reee!</span>
+                    <span id="total-fb-votes">0 votos</span>
+                    <span>🧠 Quiero aprender</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 22: Gracias + QR Final -->
+    <div class="slide" id="slide-22">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-extrabold mb-6">¡Gracias por <span class="brick-text">sumarte</span>!</h2>
+            <p class="text-2xl opacity-70 mb-10">Fue un placer compartir esta hora con vos. Ahora viene lo mejor.</p>
+            <div class="bg-white p-4 border-blueprint inline-block mb-8">
+                <img src="QR.png" alt="QR Spark Lab" class="w-64 h-64 object-contain">
+            </div>
+            <div class="p-8 bg-red-800 text-white rounded-xl shadow-2xl inline-block">
+                <p class="text-3xl font-black mb-2">Te espero en SPARK LAB 🔥</p>
+                <p class="text-lg opacity-80">7 y 14 de Abril — Tu agente, tu negocio, tu soberania.</p>
+            </div>
+            <p class="mt-8 text-sm fira opacity-40">ING. CAMILA VELASCO // SPARK101 TECH // spark101.tech</p>
+        </div>
+    </div>
+
+    <!-- Navegacion -->
+    <div class="nav-btn left-8" onclick="prevSlide()" style="left: 2rem;">ANTERIOR</div>
+    <div class="nav-btn right-8" onclick="nextSlide()" style="right: 2rem;">SIGUIENTE</div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 22;
+
+        function copyPrompt() {
+            const text = document.getElementById('agent-prompt').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.querySelector('[onclick="copyPrompt()"]');
+                btn.textContent = '✅ Copiado!';
+                setTimeout(() => btn.textContent = '📋 Copiar', 2000);
+            });
+        }
+
+        function updateSlide() {
+            document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+            document.getElementById(`slide-${currentSlide}`).classList.add('active');
+            document.getElementById('progress').style.width = `${(currentSlide / totalSlides) * 100}%`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+    </script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCss5V2ugAKNu6DuRjgUu-QXnOFD7E-kZE",
+            authDomain: "sparklab-ced33.firebaseapp.com",
+            databaseURL: "https://sparklab-ced33-default-rtdb.firebaseio.com",
+            projectId: "sparklab-ced33",
+            storageBucket: "sparklab-ced33.firebasestorage.app",
+            messagingSenderId: "991537375617",
+            appId: "1:991537375617:web:ca3c62c6ff056cfcdd6080",
+            measurementId: "G-15QQG7VQ20"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const votesRef = db.ref('votes/claude');
+
+        // Check if already voted (localStorage)
+        let hasVoted = localStorage.getItem('sparklab-claude-vote-v2');
+
+        function voteClaude(choice) {
+            if (hasVoted) return;
+            hasVoted = choice;
+            localStorage.setItem('sparklab-claude-vote-v2', choice);
+            votesRef.child(choice).transaction(c => (c || 0) + 1);
+            document.getElementById('btn-yes').style.opacity = choice === 'yes' ? '1' : '0.4';
+            document.getElementById('btn-no').style.opacity = choice === 'no' ? '1' : '0.4';
+        }
+
+        // Feedback voting
+        const feedbackRef = db.ref('votes/feedback');
+        let hasFeedbackVoted = localStorage.getItem('sparklab-feedback-vote');
+
+        function voteFeedback(choice) {
+            if (hasFeedbackVoted) return;
+            hasFeedbackVoted = choice;
+            localStorage.setItem('sparklab-feedback-vote', choice);
+            feedbackRef.child(choice).transaction(c => (c || 0) + 1);
+            document.getElementById('btn-fb-si').style.opacity = choice === 'si' ? '1' : '0.4';
+            document.getElementById('btn-fb-aprender').style.opacity = choice === 'aprender' ? '1' : '0.4';
+        }
+
+        feedbackRef.on('value', snap => {
+            const data = snap.val() || {};
+            const si = data.si || 0;
+            const aprender = data.aprender || 0;
+            const total = si + aprender;
+            document.getElementById('count-fb-si').textContent = si;
+            document.getElementById('count-fb-aprender').textContent = aprender;
+            document.getElementById('total-fb-votes').textContent = total + ' votos';
+            if (total > 0) {
+                const pSi = Math.round((si / total) * 100);
+                const pAp = 100 - pSi;
+                document.getElementById('bar-fb-si').style.width = pSi + '%';
+                document.getElementById('bar-fb-aprender').style.width = pAp + '%';
+                document.getElementById('pct-fb-si').textContent = pSi + '%';
+                document.getElementById('pct-fb-aprender').textContent = pAp + '%';
+            }
+        });
+
+        // Listen for live updates (Claude vote)
+        votesRef.on('value', snap => {
+            const data = snap.val() || {};
+            const yes = data.yes || 0;
+            const no = data.no || 0;
+            const total = yes + no;
+            document.getElementById('count-yes').textContent = yes;
+            document.getElementById('count-no').textContent = no;
+            document.getElementById('total-votes').textContent = total + ' votos';
+            if (total > 0) {
+                const pYes = Math.round((yes / total) * 100);
+                const pNo = 100 - pYes;
+                document.getElementById('bar-yes').style.width = pYes + '%';
+                document.getElementById('bar-no').style.width = pNo + '%';
+                document.getElementById('pct-yes').textContent = pYes + '%';
+                document.getElementById('pct-no').textContent = pNo + '%';
+            }
+        });
+    </script>
+</body>
+</html>
