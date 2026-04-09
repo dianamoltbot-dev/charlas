@@ -6,7 +6,7 @@ Presentaciones y charlas de [Spark101 Tech](https://www.spark101.tech).
 
 | Fecha | Evento | Link |
 |-------|--------|------|
-| 20 Feb 2026 | OpenClaw Meetup #1 — La Era de la Langosta | [Ver](2026-02-20-openclaw-meetup-1/index.html) |
+| 2026 | Spark Webinar IV — La Era de la Langosta | [Ver](spark-webinar-iv/index.html) |
 | 10 Abr 2026 | OpenClaw Meetup #2 — De Febrero a Abril: El Mundo Cambió | [Ver](2026-04-10-openclaw-meetup-2/index.html) |
 
 ## Cómo ver
